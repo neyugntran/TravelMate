@@ -1,0 +1,186 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./src/generated/client"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  user_id            Int                  @id @default(autoincrement()) // IDENTITY(1,1)
+  name               String               @db.VarChar(100)
+  email              String               @unique @db.VarChar(100)
+  password           String               @db.VarChar(255)
+  phone              String?              @unique @db.VarChar(15) // Có thể null
+  role               String               @default("user") @db.VarChar(10)
+  isBlocked          Boolean              @default(false) // true = bị chặn, false = hoạt động
+  preferences        String?              @db.Text // JSON, lưu trữ kiểu TEXT
+  Bookings           Bookings[]
+  Reviews            Reviews[]
+  Notifications      Notifications[]
+  Admin_Logs         Admin_Logs[]
+  AI_Recommendations AI_Recommendations[]
+  Chatbot_History    Chatbot_History[]
+}
+
+model Tours {
+  tour_id         Int     @id @default(autoincrement())
+  name            String  @db.VarChar(255)
+  description     String? @db.Text
+  price           Decimal @db.Decimal(10, 2)
+  duration        Int
+  location        String  @db.VarChar(255)
+  image_url       String? @db.VarChar(255)
+  available_seats Int
+
+  // Quan hệ 1-N với bảng Tours_Location
+  locations       Tours_Location[]
+  Bookings        Bookings[]
+  Reviews         Reviews[]
+  Tour_Images     Tour_Images[]
+  Tour_Logs       Tour_Logs[]
+  Tour_Itinerarys Tour_Itinerarys[]
+}
+
+model Admin_Logs {
+  log_id      Int      @id @default(autoincrement())
+  admin       Users    @relation(fields: [admin_id], references: [user_id], onDelete: Cascade)
+  admin_id    Int
+  action      String
+  action_date DateTime @default(now())
+}
+
+model Tours_Location {
+  location_id   Int     @id @default(autoincrement())
+  tour_id       Int
+  location_name String  @db.VarChar(255)
+  latitude      Decimal @db.Decimal(10, 6)
+  longitude     Decimal @db.Decimal(10, 6)
+  description   String? @db.Text
+
+  // Khóa ngoại liên kết với bảng Tour
+  Tours Tours @relation(fields: [tour_id], references: [tour_id], onDelete: Cascade)
+}
+
+model Bookings {
+  booking_id       Int      @id @default(autoincrement())
+  user_id          Int
+  tour_id          Int
+  number_of_people Int
+  booking_date     DateTime @default(now())
+  status           String   @default("pending") @db.VarChar(10)
+
+  // Quan hệ với bảng User
+  Users Users @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+
+  // Quan hệ với bảng Tour
+  Tours    Tours      @relation(fields: [tour_id], references: [tour_id], onDelete: Cascade)
+  Payments Payments[]
+}
+
+model ReviewImage {
+  id         Int      @id @default(autoincrement())
+  review_id  Int
+  image_url  String
+
+  Reviews    Reviews  @relation(fields: [review_id], references: [review_id], onDelete: Cascade)
+}
+
+model Reviews {
+  review_id   Int      @id @default(autoincrement())
+  user_id     Int
+  tour_id     Int
+  rating      Int
+  comment     String?  @db.Text
+  review_date DateTime @default(now())
+
+  // Quan hệ với bảng User
+  Users Users @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+
+  // Quan hệ với bảng Tour
+  Tours Tours @relation(fields: [tour_id], references: [tour_id], onDelete: Cascade)
+
+  // Quan hệ với bảng ReviewImage
+  ReviewImages ReviewImage[] // <-- Thêm trường này
+}
+
+model Notifications {
+  notification_id   Int      @id @default(autoincrement())
+  user_id           Int
+  message           String   @db.Text
+  notification_date DateTime @default(now())
+
+  users Users @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+}
+
+model Payments {
+  payment_id     Int      @id @default(autoincrement())
+  booking_id     Int
+  payment_date   DateTime @default(now())
+  amount         Decimal  @db.Decimal(10, 2)
+  payment_method String   @db.VarChar(20)
+  status         String   @default("successful") @db.VarChar(10)
+
+  bookings Bookings @relation(fields: [booking_id], references: [booking_id], onDelete: Cascade)
+}
+
+model Hotels {
+  hotel_id      Int      @id @default(autoincrement()) // ID của khách sạn
+  name          String   @db.VarChar(255)              // Tên khách sạn
+  description   String?  @db.Text                      // Mô tả khách sạn
+  price         Decimal  @db.Decimal(10, 2)            // Giá khách sạn
+  location      String   @db.VarChar(255)              // Địa điểm khách sạn
+  image_url     String?  @db.VarChar(255)              // URL của hình ảnh khách sạn
+  available_seats Int     // Số chỗ ngồi có sẵn tại khách sạn
+}
+
+model Tour_Images {
+  image_id    Int    @id @default(autoincrement())
+  tour_id     Int
+  image_url   String @db.VarChar(255)
+  image_order Int    @default(1)
+
+  tours Tours @relation(fields: [tour_id], references: [tour_id], onDelete: Cascade)
+}
+
+model Tour_Logs {
+  log_id      Int      @id @default(autoincrement())
+  tour_id     Int
+  action      String   @db.VarChar(50)
+  action_date DateTime @default(now())
+
+  tours Tours @relation(fields: [tour_id], references: [tour_id], onDelete: Cascade)
+}
+
+model Tour_Itinerarys {
+  itinerary_id Int       @id @default(autoincrement()) // ID tự động tăng
+  tours        Tours     @relation(fields: [tour_id], references: [tour_id], onDelete: Cascade)
+  tour_id      Int
+  day_number   Int
+  start_time   DateTime? // Giờ bắt đầu hoạt động (tùy chọn)
+  activity     String? // Nội dung hoạt động
+  location     String? // Địa điểm hoạt động
+}
+
+model Chatbot_History {
+  chat_id   Int      @id @default(autoincrement()) // ID tự động tăng
+  user_id   Int? // Có thể NULL nếu không bắt buộc
+  message   String // Không NULL
+  sender    String // Chỉ chấp nhận 'user' hoặc 'AI'
+  timestamp DateTime @default(now()) // Mặc định là thời gian hiện tại
+
+  // Khóa ngoại tham chiếu đến bảng Users
+  Users Users? @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+}
+
+model AI_Recommendations {
+  recommendation_id   Int      @id @default(autoincrement())
+  user_id             Int? // Cho phép NULL nếu không bắt buộc user
+  recommendation_text String // Không cần @db.NVarChar(Max), chỉ cần String
+  created_at          DateTime @default(now())
+
+  // Khóa ngoại tham chiếu đến bảng Users
+  Users Users? @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+}

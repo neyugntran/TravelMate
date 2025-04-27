@@ -1,0 +1,83 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import "tailwindcss";
+
+@font-face {
+  font-family: "CohereText";
+  src: url("https://cohere-readme-docs.netlify.app/fonts/CohereText-Regular.woff2")
+      format("woff2"),
+    url("https://cohere-readme-docs.netlify.app/fonts/CohereText-Regular.woff")
+      format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "CohereText";
+  src: url("https://cohere-readme-docs.netlify.app/fonts/CohereVariable.woff2")
+      format("woff2"),
+    url("https://cohere-readme-docs.netlify.app/fonts/CohereVariable.woff")
+      format("woff");
+  font-weight: 500 525;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "CohereHeadline";
+  src: url("https://cohere-readme-docs.netlify.app/fonts/CohereHeadline-Regular.woff2")
+      format("woff2"),
+    url("https://cohere-readme-docs.netlify.app/fonts/CohereHeadline-Regular.woff")
+      format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "CohereHeadline";
+  src: url("https://cohere-readme-docs.netlify.app/fonts/CohereHeadline-Bold.woff2")
+      format("woff2"),
+    url("https://cohere-readme-docs.netlify.app/fonts/CohereHeadline-Bold.woff")
+      format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  body {
+    font-family: "CohereText", sans-serif !important;
+    background-color: #e5e7eb;
+    letter-spacing: 1px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    background: linear-gradient(to bottom, #000, #9c9c9c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+body {
+  overflow-y: scroll;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+.upload-admin .ant-upload-list-item {
+  margin-top: 0 !important;
+}
+.upload-admin .ant-upload-list-item .ant-upload-list-item-name {
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.slide-blog .slick-track {
+  padding-bottom: 20px;
+}
