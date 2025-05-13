@@ -1,0 +1,204 @@
+.star-1 {
+  position: absolute;
+  top: 20%;
+  left: 20%;
+  width: 25px;
+  height: auto;
+  filter: drop-shadow(0 0 0 #dbc419);
+  z-index: -5;
+  transition: all 1s cubic-bezier(0.05, 0.83, 0.43, 0.96);
+}
+
+.star-2 {
+  position: absolute;
+  top: 45%;
+  left: 45%;
+  width: 15px;
+  height: auto;
+  filter: drop-shadow(0 0 0 #dbc419);
+  z-index: -5;
+  transition: all 1s cubic-bezier(0, 0.4, 0, 1.01);
+}
+
+.star-3 {
+  position: absolute;
+  top: 40%;
+  left: 40%;
+  width: 5px;
+  height: auto;
+  filter: drop-shadow(0 0 0 #dbc419);
+  z-index: -5;
+  transition: all 1s cubic-bezier(0, 0.4, 0, 1.01);
+}
+
+.star-4 {
+  position: absolute;
+  top: 20%;
+  left: 40%;
+  width: 8px;
+  height: auto;
+  filter: drop-shadow(0 0 0 #dbc419);
+  z-index: -5;
+  transition: all 0.8s cubic-bezier(0, 0.4, 0, 1.01);
+}
+
+.star-5 {
+  position: absolute;
+  top: 25%;
+  left: 45%;
+  width: 15px;
+  height: auto;
+  filter: drop-shadow(0 0 0 #dbc419);
+  z-index: -5;
+  transition: all 0.6s cubic-bezier(0, 0.4, 0, 1.01);
+}
+
+.star-6 {
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  width: 5px;
+  height: auto;
+  filter: drop-shadow(0 0 0 #dbc419);
+  z-index: -5;
+  transition: all 0.8s ease;
+}
+
+.btn-contact:hover {
+  background: transparent;
+  color: #181818;
+  box-shadow: 0 0 25px #19f6bbea;
+}
+
+.btn-contact:hover .star-1 {
+  position: absolute;
+  top: -45%;
+  left: -30%;
+  width: 25px;
+  height: auto;
+  filter: drop-shadow(0 0 10px #dbc419);
+  z-index: 2;
+}
+
+.btn-contact:hover .star-2 {
+  position: absolute;
+  top: -5%;
+  left: 10%;
+  width: 15px;
+  height: auto;
+  filter: drop-shadow(0 0 10px #dbc419);
+  z-index: 2;
+}
+
+.btn-contact:hover .star-3 {
+  position: absolute;
+  top: 75%;
+  left: 25%;
+  width: 5px;
+  height: auto;
+  filter: drop-shadow(0 0 10px #dbc419);
+  z-index: 2;
+}
+
+.btn-contact:hover .star-4 {
+  position: absolute;
+  top: 30%;
+  left: 80%;
+  width: 8px;
+  height: auto;
+  filter: drop-shadow(0 0 10px #dbc419);
+  z-index: 2;
+}
+
+.btn-contact:hover .star-5 {
+  position: absolute;
+  top: 25%;
+  left: 115%;
+  width: 15px;
+  height: auto;
+  filter: drop-shadow(0 0 10px #dbc419);
+  z-index: 2;
+}
+
+.btn-contact:hover .star-6 {
+  position: absolute;
+  top: 5%;
+  left: 60%;
+  width: 5px;
+  height: auto;
+  filter: drop-shadow(0 0 10px #dbc419);
+  z-index: 2;
+}
+
+.fil0 {
+  fill: #dbc419;
+}
+
+/* Button Nav Other */
+.btn-nav {
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.btn-nav {
+  --primary-color: #111;
+  --hovered-color: #30b8b8;
+  position: relative;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.btn-nav p {
+  margin: 0;
+  position: relative;
+  color: var(--primary-color);
+}
+
+.btn-nav::after {
+  position: absolute;
+  content: "";
+  width: 0;
+  left: 0;
+  bottom: -7px;
+  background: var(--hovered-color);
+  height: 2px;
+  transition: 0.3s ease-out;
+}
+
+.btn-nav p::before {
+  position: absolute;
+  width: 0%;
+  inset: 0;
+  color: var(--hovered-color);
+  overflow: hidden;
+  transition: 0.3s ease-out;
+}
+.btn-nav .home::before {
+  content: "Home";
+}
+.btn-nav .destinations::before {
+  content: "Destinations";
+}
+.btn-nav .tours::before {
+  content: "Tours";
+}
+.btn-nav .hotels::before {
+  content: "Hotels";
+}
+.btn-nav .community::before {
+  content: "Community";
+}
+.btn-nav .blog::before {
+  content: "Blog";
+}
+.btn-nav:hover::after {
+  width: 100%;
+}
+
+.btn-nav:hover p::before {
+  width: 100%;
+}
